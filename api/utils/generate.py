@@ -15,7 +15,7 @@ def get_playlist_tracks_from_ai(mood, genres, artists, playlist_name, num_tracks
     prompt = (
         f"Generate a list of {num_tracks} {mood} songs for a playlist called '{playlist_name}'. "
         f"The genres should be {', '.join(genres)}. "
-        f"Include songs by {', '.join(artists)} if possible. "
+        f"Include songs by {', '.join(artists)} if possible. if no artists provided use genres to find theme "
         "Return only a JSON array of track names and artists, like this: "
         '[{"track": "Song Name", "artist": "Artist Name"}, ...]'
     )
@@ -40,7 +40,6 @@ def get_playlist_tracks_from_ai(mood, genres, artists, playlist_name, num_tracks
 
     # Extract and parse the AI's reply
     ai_reply = response.json()["choices"][0]["message"]["content"]
-    # print("AI raw reply:\n", ai_reply)
     try:
         tracks = json.loads(ai_reply)
     except Exception:
@@ -55,10 +54,10 @@ def get_playlist_tracks_from_ai(mood, genres, artists, playlist_name, num_tracks
 
 # Example usage:
 tracks = get_playlist_tracks_from_ai(
-    mood="energetic",
-    genres=["pop", "dance"],
-    artists=["Dua Lipa", "Calvin Harris"],
-    playlist_name="My Energetic Vibes",
+    mood="i feel sad",
+    genres=["rap","rock"],
+    artists=[],
+    playlist_name="My playlist",
     num_tracks=20
 )
 print(tracks)
