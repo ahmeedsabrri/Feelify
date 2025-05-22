@@ -52,12 +52,12 @@ def get_playlist_tracks_from_ai(mood, genres, artists, playlist_name, num_tracks
             raise Exception("AI response is not valid JSON:\n" + ai_reply)
     return tracks
 
-# Example usage:
-tracks = get_playlist_tracks_from_ai(
-    mood="i feel sad",
-    genres=["rap","rock"],
-    artists=[],
-    playlist_name="My playlist",
-    num_tracks=20
-)
-print(tracks)
+# # Example usage:
+# tracks = get_playlist_tracks_from_ai(
+#     mood="",
+#     genres=["chaabi"],
+#     artists=[],
+#     playlist_name="My playlist",
+#     num_tracks=20
+# )
+# print(tracks)
