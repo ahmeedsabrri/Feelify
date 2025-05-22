@@ -33,13 +33,16 @@ class SpotifyOauthCallBackSerializer(serializers.Serializer):
         attrs['username'] = data["display_name"]
         attrs['email'] = data["email"]
         attrs['avatar'] = avatar_url
+        attrs['spotify_id'] = data["id"]
         return attrs
+    
     def create(self, validated_data):
         user, _ = User.objects.get_or_create(
-            username=validated_data['username'],
+            spotify_id=validated_data['spotify_id'],
             defaults={
-                'email':validated_data['email'],
-                'avatar':validated_data['avatar']
+                'username': validated_data['username'],
+                'email': validated_data['email'],
+                'avatar':validated_data['avatar'],
             }
         )
         return user
