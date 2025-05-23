@@ -12,6 +12,8 @@ class ProtectedView(APIView):
     permission_classes = [IsAuthenticated]
     def get(self, request):
         return Response({"message": "You are authenticated!"})
+
+
 class SpotifyOauthCallBackView(APIView):
     permission_classes = []
     serializer_class = SpotifyOauthCallBackSerializer
@@ -22,8 +24,24 @@ class SpotifyOauthCallBackView(APIView):
         refresh = RefreshToken.for_user(user)
         response = Response({
             "message": "You logged in successfully",
-            "refresh": str(refresh),
+            # "refresh": str(refresh),
             "access": str(refresh.access_token),
             }, status=status.HTTP_200_OK)
-        
+        response.set_cookie(
+            key="tchupii_token",
+            value=str(refresh),
+            httponly=True,
+            secure=True,  
+            samesite="Lax",
+        )
+        return response
+    
+    
+class LogoutView(APIView):
+    permission_classes = [IsAuthenticated]
+    def post(self, request):
+        token = RefreshToken(request.COOKIES.get('refresh'))
+        token.blacklist()
+        response = Response({"message": "Logout successful."}, status=status.HTTP_205_RESET_CONTENT)
+        response.delete_cookie('refresh')
         return response

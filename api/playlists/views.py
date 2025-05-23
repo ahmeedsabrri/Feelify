@@ -12,3 +12,9 @@ class GeneratePlaylist(APIView):
             playlist_obj = serializer.save()
             return Response(PlaylistSerializer(playlist_obj).data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class ListPlaylist(APIView):
+    permission_classes = [IsAuthenticated]
+    pass
+
+
