@@ -14,7 +14,7 @@ class SpotifyOauthCallBackSerializer(serializers.Serializer):
             data={
                 'grant_type': 'authorization_code',
                 'code': code,
-                'redirect_uri': 'http://127.0.0.1:8000/api/auth/v1/spotify/callback/',
+                'redirect_uri': 'http://127.0.0.1:3000/callback',
                 'client_id': '72a78c714b824bf090833a060f838045',
                 'client_secret': '1918fed7b7134af786d8e34e9d2c7e97',
             }
