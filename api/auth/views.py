@@ -27,11 +27,12 @@ class SpotifyOauthCallBackView(APIView):
             # "refresh": str(refresh),
             "access": str(refresh.access_token),
             }, status=status.HTTP_200_OK)
+        
         response.set_cookie(
             key="tchupii_token",
             value=str(refresh),
             httponly=True,
-            secure=True,  
+            secure=False,  
             samesite="Lax",
         )
         return response
@@ -40,8 +41,8 @@ class SpotifyOauthCallBackView(APIView):
 class LogoutView(APIView):
     permission_classes = [IsAuthenticated]
     def post(self, request):
-        token = RefreshToken(request.COOKIES.get('refresh'))
+        token = RefreshToken(request.COOKIES.get('tchupii_token'))
         token.blacklist()
         response = Response({"message": "Logout successful."}, status=status.HTTP_205_RESET_CONTENT)
-        response.delete_cookie('refresh')
+        response.delete_cookie('tchupii_token')
         return response
